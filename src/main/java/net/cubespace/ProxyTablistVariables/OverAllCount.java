@@ -18,6 +18,6 @@ public class OverAllCount implements Variable {
 
     @Override
     public String getText(String foundString, int refreshId) {
-        return "" + BungeeCord.getInstance().getPlayers().size();
+        return String.valueOf(BungeeCord.getInstance().getPlayers().size());
     }
 }

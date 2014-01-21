@@ -26,6 +26,6 @@ public class ServerPlayerCount implements Variable {
             return "Error";
         }
 
-        return "" + serverInfo.getPlayers().size();
+        return String.valueOf(serverInfo.getPlayers().size());
     }
 }
