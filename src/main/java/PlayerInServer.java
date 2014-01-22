@@ -27,7 +27,7 @@ public class PlayerInServer implements Variable {
             serverPlayerList.clear();
         }
 
-        String server = pattern.matcher(foundString).group(1);
+        String server = foundString.substring(foundString.indexOf(":"));
 
         ServerInfo serverInfo = BungeeCord.getInstance().getServerInfo(server);
         if(serverInfo == null) {
