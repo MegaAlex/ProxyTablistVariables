@@ -12,12 +12,12 @@ import java.util.regex.Pattern;
  */
 public class PlayerInServer implements Variable {
     private HashMap<ServerInfo, Iterator<ProxiedPlayer>> serverPlayerList = new HashMap<ServerInfo, Iterator<ProxiedPlayer>>();
-    private static final Pattern pattern = Pattern.compile("playerInServer:([\\w]+)");
+    private static final String pattern = "playerInServer:([\\w]+)";
     private int lastRefreshId = -1;
 
     @Override
     public Pattern getPattern() {
-        return pattern;
+        return Pattern.compile(pattern);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class PlayerInServer implements Variable {
             serverPlayerList.clear();
         }
 
-        String server = foundString.substring(foundString.indexOf(":"));
+        String server = Pattern.compile(pattern).matcher(foundString).group(1);
 
         ServerInfo serverInfo = BungeeCord.getInstance().getServerInfo(server);
         if(serverInfo == null) {
