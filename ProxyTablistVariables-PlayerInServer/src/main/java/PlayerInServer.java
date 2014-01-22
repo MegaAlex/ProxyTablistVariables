@@ -49,7 +49,7 @@ public class PlayerInServer implements Variable {
     }
 
     @Override
-    public String getText(String foundString, int refreshId) {
+    public String getText(String foundString, int refreshId, Short ping) {
         String server = foundString.substring(foundString.indexOf(":") + 1);
 
         if (lastRefreshId != refreshId) {
@@ -70,6 +70,9 @@ public class PlayerInServer implements Variable {
             return "";
         }
 
-        return serverPlayerList.get(serverInfo).next().getName();
+        ProxiedPlayer player = serverPlayerList.get(serverInfo).next();
+        ping = (new Integer(player.getPing())).shortValue();
+
+        return player.getName();
     }
 }

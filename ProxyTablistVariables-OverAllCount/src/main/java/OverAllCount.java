@@ -15,7 +15,7 @@ public class OverAllCount implements Variable {
     }
 
     @Override
-    public String getText(String foundString, int refreshId) {
+    public String getText(String foundString, int refreshId, Short ping) {
         return String.valueOf(BungeeCord.getInstance().getPlayers().size());
     }
 }

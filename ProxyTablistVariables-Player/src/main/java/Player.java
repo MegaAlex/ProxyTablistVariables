@@ -19,7 +19,7 @@ public class Player implements Variable {
     }
 
     @Override
-    public String getText(String foundString, int refreshId) {
+    public String getText(String foundString, int refreshId, Short ping) {
         if (lastRefreshId != refreshId) {
             lastRefreshId = refreshId;
             playerIterator = BungeeCord.getInstance().getPlayers().iterator();
@@ -29,6 +29,9 @@ public class Player implements Variable {
             return "";
         }
 
-        return playerIterator.next().getName();
+        ProxiedPlayer player = playerIterator.next();
+        ping = (new Integer(player.getPing())).shortValue();
+
+        return player.getName();
     }
 }
