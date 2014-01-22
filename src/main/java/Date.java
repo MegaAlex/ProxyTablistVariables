@@ -1,5 +1,3 @@
-package net.cubespace.ProxyTablistVariables;
-
 import eu.scrayos.proxytablist.objects.Variable;
 
 import java.text.SimpleDateFormat;
