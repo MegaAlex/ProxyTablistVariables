@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  */
 public class PlayerInServer implements Variable {
     private HashMap<ServerInfo, Iterator<ProxiedPlayer>> serverPlayerList = new HashMap<ServerInfo, Iterator<ProxiedPlayer>>();
-    private static final String pattern = "playerInServer:([\\w]+)";
+    private static final Pattern pattern = Pattern.compile("playerInServer:([\\w]+)");
     private int lastRefreshId = -1;
 
     public PlayerInServer() {
@@ -45,7 +45,7 @@ public class PlayerInServer implements Variable {
 
     @Override
     public Pattern getPattern() {
-        return Pattern.compile(pattern);
+        return pattern;
     }
 
     @Override

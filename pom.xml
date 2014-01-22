@@ -14,6 +14,7 @@
         <module>ProxyTablistVariables-Date</module>
         <module>ProxyTablistVariables-OverAllCount</module>
         <module>ProxyTablistVariables-ServerPlayerCount</module>
+        <module>ProxyTablistVariables-Player</module>
     </modules>
 
     <build>
