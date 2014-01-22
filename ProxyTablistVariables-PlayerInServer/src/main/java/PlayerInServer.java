@@ -43,6 +43,15 @@ public class PlayerInServer implements Variable {
         });
     }
 
+    public String formatName(ProxiedPlayer p) {
+        String name = p.getName();
+        for (String c : new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "l", "m", "n", "o", "k", "r"}) {
+            name = (p.hasPermission("proxy.tablist." + c) ? "§" + c + name : name);
+        }
+
+        return name;
+    }
+
     @Override
     public Pattern getPattern() {
         return pattern;
@@ -73,6 +82,6 @@ public class PlayerInServer implements Variable {
         ProxiedPlayer player = serverPlayerList.get(serverInfo).next();
         ping = (new Integer(player.getPing())).shortValue();
 
-        return player.getName();
+        return formatName(player);
     }
 }
