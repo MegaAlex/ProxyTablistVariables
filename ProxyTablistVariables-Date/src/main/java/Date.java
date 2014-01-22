@@ -16,7 +16,7 @@ public class Date implements Variable {
 
     @Override
     public String getText(String foundText, int refreshId) {
-        String dateFormat = pattern.matcher(foundText).group(1);
+        String dateFormat = foundText.substring(foundText.indexOf(":"));
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
         return simpleDateFormat.format(new java.util.Date());
     }
