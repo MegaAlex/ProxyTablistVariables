@@ -1,4 +1,4 @@
-import eu.scrayos.proxytablist.objects.Variable;
+import eu.scrayos.proxytablist.api.Variable;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
@@ -9,9 +9,10 @@ import java.util.regex.Pattern;
  * @author geNAZt (fabian.fassbender42@googlemail.com)
  */
 public class Player implements Variable {
-    private final static Pattern pattern = Pattern.compile("player");
+    private final static Pattern pattern = Pattern.compile("\\{player\\}");
     private int lastRefreshId = -1;
     private Iterator<ProxiedPlayer> playerIterator;
+    private ProxiedPlayer lastPlayer;
 
     @Override
     public Pattern getPattern() {
@@ -19,21 +20,39 @@ public class Player implements Variable {
     }
 
     public String formatName(ProxiedPlayer p) {
-        String name = p.getName();
+        StringBuilder name = new StringBuilder();
+
+        //Check for Prefix
+        /*if(ProxyTablist.getInstance().getConfig().contains("variable.player.prefix." + p.getName())) {
+            name.append(ProxyTablist.getInstance().getConfig().getString("variable.player.prefix." + p.getName(), ""));
+        } */
+
         String last = null;
+
         for (String c : new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "l", "m", "n", "o", "k", "r"}) {
             last = (p.hasPermission("proxy.tablist." + c)) ? c : null;
         }
 
-        return (last != null) ? "§" + last + name : name;
+        if (last != null) {
+            name.append("§");
+            name.append(last);
+        }
+
+        name.append(p.getName());
+        return name.toString();
     }
 
     @Override
-    public String getText(String foundString, int refreshId, Short ping) {
-        if (lastRefreshId != refreshId) {
+    public String getText(String foundString, int refreshId, Short ping, ProxiedPlayer proxiedPlayer) {
+        if (lastPlayer == null || !lastPlayer.equals(proxiedPlayer) || lastRefreshId != refreshId) {
             lastRefreshId = refreshId;
+            lastPlayer = proxiedPlayer;
             playerIterator = BungeeCord.getInstance().getPlayers().iterator();
         }
+
+        /*if(!proxyTablist.getConfig().contains("variable.player.prefix")) {
+            proxyTablist.getConfig().set("variable.player.prefix", new HashMap<String, String>());
+        } */
 
         if (!playerIterator.hasNext()) {
             return "";

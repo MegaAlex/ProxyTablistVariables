@@ -1,4 +1,4 @@
-import eu.scrayos.proxytablist.objects.Variable;
+import eu.scrayos.proxytablist.api.Variable;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.Callback;
 import net.md_5.bungee.api.ServerPing;
@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  */
 public class PlayerInServer implements Variable {
     private HashMap<ServerInfo, Iterator<ProxiedPlayer>> serverPlayerList = new HashMap<ServerInfo, Iterator<ProxiedPlayer>>();
-    private static final Pattern pattern = Pattern.compile("playerInServer:([\\w]+)");
+    private static final Pattern pattern = Pattern.compile("\\{playerInServer:([\\w]+)\\}");
     private int lastRefreshId = -1;
 
     public PlayerInServer() {
@@ -44,13 +44,26 @@ public class PlayerInServer implements Variable {
     }
 
     public String formatName(ProxiedPlayer p) {
-        String name = p.getName();
+        StringBuilder name = new StringBuilder();
+
+        //Check for Prefix
+        /*if(proxyTablist.getConfig().contains("variable.player.prefix." + p.getName())) {
+            name.append(proxyTablist.getConfig().getString("variable.player.prefix." + p.getName(), ""));
+        }*/
+
         String last = null;
+
         for (String c : new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "l", "m", "n", "o", "k", "r"}) {
             last = (p.hasPermission("proxy.tablist." + c)) ? c : null;
         }
 
-        return (last != null) ? "§" + last + name : name;
+        if(last != null) {
+            name.append("§");
+            name.append(last);
+        }
+
+        name.append(p.getName());
+        return name.toString();
     }
 
     @Override
@@ -59,13 +72,17 @@ public class PlayerInServer implements Variable {
     }
 
     @Override
-    public String getText(String foundString, int refreshId, Short ping) {
+    public String getText(String foundString, int refreshId, Short ping, ProxiedPlayer proxiedPlayer) {
         String server = foundString.substring(foundString.indexOf(":") + 1);
 
         if (lastRefreshId != refreshId) {
             lastRefreshId = refreshId;
             serverPlayerList.clear();
         }
+
+        /*if(!proxyTablist.getConfig().contains("variable.player.prefix")) {
+            proxyTablist.getConfig().set("variable.player.prefix", new HashMap<String, String>());
+        }*/
 
         ServerInfo serverInfo = BungeeCord.getInstance().getServerInfo(server);
         if (serverInfo == null) {
