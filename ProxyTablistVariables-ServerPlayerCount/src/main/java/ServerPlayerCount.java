@@ -17,7 +17,7 @@ public class ServerPlayerCount implements Variable {
     }
 
     @Override
-    public String getText(String foundString, int refreshId, Short ping, ProxiedPlayer proxiedPlayer) {
+    public String getText(String foundString, int refreshId, Short ping, ProxiedPlayer proxiedPlayer, Boolean global) {
         String server = pattern.matcher(foundString).group(1);
 
         ServerInfo serverInfo = BungeeCord.getInstance().getServerInfo(server);

@@ -25,7 +25,7 @@ public class Player implements Variable {
         //Check for Prefix
         /*if(ProxyTablist.getInstance().getConfig().contains("variable.player.prefix." + p.getName())) {
             name.append(ProxyTablist.getInstance().getConfig().getString("variable.player.prefix." + p.getName(), ""));
-        } */
+        }*/
 
         String last = null;
 
@@ -43,7 +43,7 @@ public class Player implements Variable {
     }
 
     @Override
-    public String getText(String foundString, int refreshId, Short ping, ProxiedPlayer proxiedPlayer) {
+    public String getText(String foundString, int refreshId, Short ping, ProxiedPlayer proxiedPlayer, Boolean global) {
         if (lastPlayer == null || !lastPlayer.equals(proxiedPlayer) || lastRefreshId != refreshId) {
             lastRefreshId = refreshId;
             lastPlayer = proxiedPlayer;

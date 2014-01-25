@@ -16,7 +16,7 @@ public class Date implements Variable {
     }
 
     @Override
-    public String getText(String foundText, int refreshId, Short ping, ProxiedPlayer proxiedPlayer) {
+    public String getText(String foundText, int refreshId, Short ping, ProxiedPlayer proxiedPlayer, Boolean global) {
         String dateFormat = foundText.substring(foundText.indexOf(":") + 1);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
         return simpleDateFormat.format(new java.util.Date());
