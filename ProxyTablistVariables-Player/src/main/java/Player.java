@@ -12,7 +12,7 @@ public class Player implements Variable {
     private final static Pattern pattern = Pattern.compile("\\{player\\}");
     private int lastRefreshId = -1;
     private Iterator<ProxiedPlayer> playerIterator;
-    private ProxiedPlayer lastPlayer;
+    private int lastSlot;
 
     @Override
     public Pattern getPattern() {
@@ -43,11 +43,17 @@ public class Player implements Variable {
     }
 
     @Override
-    public String getText(String foundString, int refreshId, Short ping, ProxiedPlayer proxiedPlayer, Boolean global) {
-        if (lastPlayer == null || !lastPlayer.equals(proxiedPlayer) || lastRefreshId != refreshId) {
+    public String getText(String foundString, int refreshId, Short ping, ProxiedPlayer proxiedPlayer, Boolean global, int slot) {
+        if (lastRefreshId != refreshId) {
             lastRefreshId = refreshId;
-            lastPlayer = proxiedPlayer;
             playerIterator = BungeeCord.getInstance().getPlayers().iterator();
+        }
+
+        if (lastSlot == slot) {
+            global = false;
+            return "";
+        } else {
+            lastSlot = slot;
         }
 
         /*if(!proxyTablist.getConfig().contains("variable.player.prefix")) {

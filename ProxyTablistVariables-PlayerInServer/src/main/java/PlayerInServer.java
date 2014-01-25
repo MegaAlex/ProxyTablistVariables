@@ -16,6 +16,7 @@ public class PlayerInServer implements Variable {
     private HashMap<ServerInfo, Iterator<ProxiedPlayer>> serverPlayerList = new HashMap<ServerInfo, Iterator<ProxiedPlayer>>();
     private static final Pattern pattern = Pattern.compile("\\{playerInServer:([\\w]+)\\}");
     private int lastRefreshId = -1;
+    private int lastSlot;
 
     public PlayerInServer() {
         (new Thread() {
@@ -72,12 +73,19 @@ public class PlayerInServer implements Variable {
     }
 
     @Override
-    public String getText(String foundString, int refreshId, Short ping, ProxiedPlayer proxiedPlayer, Boolean global) {
+    public String getText(String foundString, int refreshId, Short ping, ProxiedPlayer proxiedPlayer, Boolean global, int slot) {
         String server = foundString.substring(foundString.indexOf(":") + 1);
 
         if (lastRefreshId != refreshId) {
             lastRefreshId = refreshId;
             serverPlayerList.clear();
+        }
+
+        if(lastSlot == slot) {
+            global = false;
+            return "";
+        } else {
+            lastSlot = slot;
         }
 
         /*if(!proxyTablist.getConfig().contains("variable.player.prefix")) {
