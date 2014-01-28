@@ -1,3 +1,4 @@
+import eu.scrayos.proxytablist.ProxyTablist;
 import eu.scrayos.proxytablist.api.Variable;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.Callback;
@@ -51,9 +52,9 @@ public class PlayerInServer implements Variable {
         StringBuilder name = new StringBuilder();
 
         //Check for Prefix
-        /*if(proxyTablist.getConfig().contains("variable.player.prefix." + p.getName())) {
-            name.append(proxyTablist.getConfig().getString("variable.player.prefix." + p.getName(), ""));
-        }*/
+        if(ProxyTablist.getInstance().getConfig().contains("variable.player.prefix." + p.getName())) {
+            name.append(ProxyTablist.getInstance().getConfig().getString("variable.player.prefix." + p.getName(), ""));
+        }
 
         String last = null;
 
@@ -106,10 +107,6 @@ public class PlayerInServer implements Variable {
 
     @Override
     public String getText(Short ping) {
-        /*if(!proxyTablist.getConfig().contains("variable.player.prefix")) {
-            proxyTablist.getConfig().set("variable.player.prefix", new HashMap<String, String>());
-        }*/
-
         ServerInfo serverInfo = BungeeCord.getInstance().getServerInfo(server);
         if (serverInfo == null) {
             return "Error";

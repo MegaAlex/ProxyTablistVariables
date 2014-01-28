@@ -1,3 +1,4 @@
+import eu.scrayos.proxytablist.ProxyTablist;
 import eu.scrayos.proxytablist.api.Variable;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -67,9 +68,9 @@ public class Player implements Variable {
         StringBuilder name = new StringBuilder();
 
         //Check for Prefix
-        /*if(ProxyTablist.getInstance().getConfig().contains("variable.player.prefix." + p.getName())) {
+        if(ProxyTablist.getInstance().getConfig().contains("variable.player.prefix." + p.getName())) {
             name.append(ProxyTablist.getInstance().getConfig().getString("variable.player.prefix." + p.getName(), ""));
-        }*/
+        }
 
         String last = null;
 
