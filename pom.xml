@@ -39,6 +39,10 @@
             <id>cubespace-release</id>
             <url>http://nexus.cube-space.net/content/repositories/releases/</url>
         </repository>
+        <repository>
+            <id>craftminecraft-dev</id>
+            <url>http://repo.craftminecraft.net/content/groups/public/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -46,6 +50,11 @@
             <groupId>eu.scrayos</groupId>
             <artifactId>ProxyTablist</artifactId>
             <version>1.5</version>
+        </dependency>
+        <dependency>
+            <groupId>net.craftminecraft.bungee</groupId>
+            <artifactId>bungeeyaml</artifactId>
+            <version>1.2</version>
         </dependency>
         <dependency>
             <groupId>net.md-5</groupId>
