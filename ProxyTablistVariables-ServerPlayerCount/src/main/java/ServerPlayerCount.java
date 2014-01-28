@@ -55,7 +55,7 @@ public class ServerPlayerCount implements Variable {
 
     @Override
     public void setRefreshId(int i) {
-
+        lastSlot = 0;
     }
 
     @Override

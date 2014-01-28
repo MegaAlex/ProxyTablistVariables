@@ -84,6 +84,8 @@ public class PlayerInServer implements Variable {
             lastRefreshId = refreshId;
             serverPlayerList.clear();
         }
+
+        lastSlot = 0;
     }
 
     @Override
