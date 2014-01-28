@@ -2,6 +2,7 @@ import eu.scrayos.proxytablist.api.Variable;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
+import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
 /**
@@ -16,7 +17,27 @@ public class OverAllCount implements Variable {
     }
 
     @Override
-    public String getText(String foundString, int refreshId, Short ping, ProxiedPlayer proxiedPlayer, Boolean global, int slot) {
+    public void setRefreshId(int i) {
+
+    }
+
+    @Override
+    public boolean hasUpdate(int i, ProxiedPlayer proxiedPlayer) {
+        return true;
+    }
+
+    @Override
+    public void setMatchResult(MatchResult matchResult) {
+
+    }
+
+    @Override
+    public boolean isForGlobalTablist() {
+        return true;
+    }
+
+    @Override
+    public String getText(Short aShort) {
         return String.valueOf(BungeeCord.getInstance().getPlayers().size());
     }
 }

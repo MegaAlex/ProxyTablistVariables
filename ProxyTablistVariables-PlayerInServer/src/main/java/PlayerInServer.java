@@ -7,6 +7,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
 /**
@@ -15,6 +16,8 @@ import java.util.regex.Pattern;
 public class PlayerInServer implements Variable {
     private HashMap<ServerInfo, Iterator<ProxiedPlayer>> serverPlayerList = new HashMap<ServerInfo, Iterator<ProxiedPlayer>>();
     private static final Pattern pattern = Pattern.compile("\\{playerInServer:([\\w]+)\\}");
+    private String server = null;
+
     private int lastRefreshId = -1;
     private int lastSlot;
 
@@ -73,21 +76,36 @@ public class PlayerInServer implements Variable {
     }
 
     @Override
-    public String getText(String foundString, int refreshId, Short ping, ProxiedPlayer proxiedPlayer, Boolean global, int slot) {
-        String server = foundString.substring(foundString.indexOf(":") + 1);
-
+    public void setRefreshId(int refreshId) {
         if (lastRefreshId != refreshId) {
             lastRefreshId = refreshId;
             serverPlayerList.clear();
         }
+    }
 
-        if(lastSlot == slot) {
-            global = false;
-            return "";
-        } else {
+    @Override
+    public boolean hasUpdate(int slot, ProxiedPlayer proxiedPlayer) {
+        if(slot != lastSlot) {
             lastSlot = slot;
+
+            return true;
         }
 
+        return false;
+    }
+
+    @Override
+    public void setMatchResult(MatchResult matchResult) {
+        server = matchResult.group(1);
+    }
+
+    @Override
+    public boolean isForGlobalTablist() {
+        return false;
+    }
+
+    @Override
+    public String getText(Short ping) {
         /*if(!proxyTablist.getConfig().contains("variable.player.prefix")) {
             proxyTablist.getConfig().set("variable.player.prefix", new HashMap<String, String>());
         }*/

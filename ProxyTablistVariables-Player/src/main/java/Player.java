@@ -3,6 +3,7 @@ import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.Iterator;
+import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
 /**
@@ -10,13 +11,56 @@ import java.util.regex.Pattern;
  */
 public class Player implements Variable {
     private final static Pattern pattern = Pattern.compile("\\{player\\}");
-    private int lastRefreshId = -1;
     private Iterator<ProxiedPlayer> playerIterator;
+    private ProxiedPlayer proxiedPlayer;
+
+    private int lastRefreshId = -1;
     private int lastSlot;
 
     @Override
     public Pattern getPattern() {
         return pattern;
+    }
+
+    @Override
+    public void setRefreshId(int refreshId) {
+        if(lastRefreshId != refreshId) {
+            lastRefreshId = refreshId;
+
+            playerIterator = BungeeCord.getInstance().getPlayers().iterator();
+        }
+    }
+
+    @Override
+    public boolean hasUpdate(int slot, ProxiedPlayer proxiedPlayer) {
+        if(slot != lastSlot) {
+            lastSlot = slot;
+            this.proxiedPlayer = (playerIterator.hasNext()) ? playerIterator.next() : null;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public void setMatchResult(MatchResult matchResult) {
+
+    }
+
+    @Override
+    public boolean isForGlobalTablist() {
+        return true;
+    }
+
+    @Override
+    public String getText(Short ping) {
+        if(proxiedPlayer != null) {
+            ping = (new Integer(this.proxiedPlayer.getPing())).shortValue();
+            return formatName(this.proxiedPlayer);
+        }
+
+        return "";
     }
 
     public String formatName(ProxiedPlayer p) {
@@ -40,33 +84,5 @@ public class Player implements Variable {
 
         name.append(p.getName());
         return name.toString();
-    }
-
-    @Override
-    public String getText(String foundString, int refreshId, Short ping, ProxiedPlayer proxiedPlayer, Boolean global, int slot) {
-        if (lastRefreshId != refreshId) {
-            lastRefreshId = refreshId;
-            playerIterator = BungeeCord.getInstance().getPlayers().iterator();
-        }
-
-        if (lastSlot == slot) {
-            global = false;
-            return "";
-        } else {
-            lastSlot = slot;
-        }
-
-        /*if(!proxyTablist.getConfig().contains("variable.player.prefix")) {
-            proxyTablist.getConfig().set("variable.player.prefix", new HashMap<String, String>());
-        } */
-
-        if (!playerIterator.hasNext()) {
-            return "";
-        }
-
-        ProxiedPlayer player = playerIterator.next();
-        ping = (new Integer(player.getPing())).shortValue();
-
-        return formatName(player);
     }
 }
