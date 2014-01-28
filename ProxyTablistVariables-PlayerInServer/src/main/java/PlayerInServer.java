@@ -25,15 +25,17 @@ public class PlayerInServer implements Variable {
     public PlayerInServer() {
         (new Thread() {
             public void run() {
-                try {
-                    for (ServerInfo serverInfo : BungeeCord.getInstance().getServers().values()) {
-                        pingServer(serverInfo);
-                    }
+                while(true) {
+                    try {
+                        for (ServerInfo serverInfo : BungeeCord.getInstance().getServers().values()) {
+                            pingServer(serverInfo);
+                        }
 
-                    Thread.sleep(10000);
-                } catch (InterruptedException e) {
-                    System.out.println("Interrupted ping Thread");
-                    e.printStackTrace();
+                        Thread.sleep(10000);
+                    } catch (InterruptedException e) {
+                        System.out.println("Interrupted ping Thread");
+                        e.printStackTrace();
+                    }
                 }
             }
         }).start();
