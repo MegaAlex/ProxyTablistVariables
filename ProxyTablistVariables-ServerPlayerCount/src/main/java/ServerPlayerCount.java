@@ -5,6 +5,7 @@ import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
+import java.util.HashMap;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
@@ -13,6 +14,7 @@ import java.util.regex.Pattern;
  */
 public class ServerPlayerCount implements Variable {
     private final static Pattern pattern = Pattern.compile("\\{serverCount:([\\w]+)\\}");
+    private HashMap<String, Integer> playerCount = new HashMap<>();
     private String server = null;
 
     private int lastSlot = -1;
@@ -40,6 +42,7 @@ public class ServerPlayerCount implements Variable {
         serverInfo.ping(new Callback<ServerPing>() {
             @Override
             public void done(ServerPing serverPing, Throwable throwable) {
+                playerCount.put(serverInfo.getName(), serverPing.getPlayers().getOnline());
                 System.out.println("Pinged Server " + serverInfo.getName() + ". The Server holds " + serverPing.getPlayers().getOnline() + " Players");
             }
         });
@@ -78,11 +81,10 @@ public class ServerPlayerCount implements Variable {
 
     @Override
     public String getText(Short aShort) {
-        ServerInfo serverInfo = BungeeCord.getInstance().getServerInfo(server);
-        if(serverInfo == null) {
+        if(!playerCount.containsKey(server)) {
             return "Error";
         }
 
-        return String.valueOf(serverInfo.getPlayers().size());
+        return String.valueOf(playerCount.get(server));
     }
 }
