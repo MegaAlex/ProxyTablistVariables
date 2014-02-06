@@ -72,17 +72,13 @@ public class Player implements Variable {
             name.append(ProxyTablist.getInstance().getConfig().getString("variable.player.prefix." + p.getName(), ""));
         }
 
-        String last = null;
-
         for (String c : new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "l", "m", "n", "o", "k", "r"}) {
-            last = (p.hasPermission("proxy.tablist." + c)) ? c : last;
+            if (p.hasPermission("proxy.tablist." + c)) {
+                name.append("§");
+                name.append(c);
+            }
         }
-
-        if (last != null) {
-            name.append("§");
-            name.append(last);
-        }
-
+        
         name.append(p.getName());
         return name.toString();
     }
