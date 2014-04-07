@@ -42,6 +42,13 @@ public class ServerPlayerCount implements Variable {
         serverInfo.ping(new Callback<ServerPing>() {
             @Override
             public void done(ServerPing serverPing, Throwable throwable) {
+                if (serverPing == null) {
+                    System.out.println("Error while getting Ping");
+                    throwable.printStackTrace();
+                    
+                    return;
+                }
+                
                 playerCount.put(serverInfo.getName(), serverPing.getPlayers().getOnline());
                 System.out.println("Pinged Server " + serverInfo.getName() + ". The Server holds " + serverPing.getPlayers().getOnline() + " Players");
             }
