@@ -1,4 +1,3 @@
-import eu.scrayos.proxytablist.ProxyTablist;
 import eu.scrayos.proxytablist.api.Variable;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -50,14 +49,19 @@ public class Player implements Variable {
     }
 
     @Override
-    public boolean isForGlobalTablist() {
+    public boolean isGlobal() {
         return true;
     }
 
     @Override
-    public String getText(Short ping) {
+    public short getPing() {
+        return (proxiedPlayer != null) ? (short) proxiedPlayer.getPing() : 0;
+    }
+
+    @Override
+    public String getText() {
+
         if(proxiedPlayer != null) {
-            ping = (new Integer(this.proxiedPlayer.getPing())).shortValue();
             return formatName(this.proxiedPlayer);
         }
 
@@ -66,11 +70,6 @@ public class Player implements Variable {
 
     public String formatName(ProxiedPlayer p) {
         StringBuilder name = new StringBuilder();
-
-        //Check for Prefix
-        if(ProxyTablist.getInstance().getConfig().contains("variable.player.prefix." + p.getName())) {
-            name.append(ProxyTablist.getInstance().getConfig().getString("variable.player.prefix." + p.getName(), ""));
-        }
 
         for (String c : new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "l", "m", "n", "o", "k", "r"}) {
             if (p.hasPermission("proxy.tablist." + c)) {

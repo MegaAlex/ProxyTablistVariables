@@ -32,12 +32,17 @@ public class OverAllCount implements Variable {
     }
 
     @Override
-    public boolean isForGlobalTablist() {
+    public boolean isGlobal() {
         return true;
     }
 
     @Override
-    public String getText(Short aShort) {
+    public short getPing() {
+        return 0;
+    }
+
+    @Override
+    public String getText() {
         return String.valueOf(BungeeCord.getInstance().getPlayers().size());
     }
 }

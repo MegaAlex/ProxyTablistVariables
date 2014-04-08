@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  */
 public class Date implements Variable {
     private final static Pattern pattern = Pattern.compile("\\{date:([\\w\\.\\s,:]+)\\}");
-    private MatchResult matchResult;
+    private String dateFormat;
 
     @Override
     public Pattern getPattern() {
@@ -29,17 +29,21 @@ public class Date implements Variable {
 
     @Override
     public void setMatchResult(MatchResult matchResult) {
-        this.matchResult = matchResult;
+        this.dateFormat = matchResult.group(1);
     }
 
     @Override
-    public boolean isForGlobalTablist() {
+    public boolean isGlobal() {
         return true;
     }
 
     @Override
-    public String getText(Short ping) {
-        String dateFormat = matchResult.group(1);
+    public short getPing() {
+        return 0;
+    }
+
+    @Override
+    public String getText() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
         return simpleDateFormat.format(new java.util.Date());
     }

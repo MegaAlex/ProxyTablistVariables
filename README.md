@@ -1,3 +1,10 @@
+This is a fork of geNAZt's ProxyTablistVariables as of
+[a3685e8f34be43e1c51f2ca8426cdd7ac6fbd08a](https://github.com/geNAZt/ProxyTablistVariables/commit/a3685e8f34be43e1c51f2ca8426cdd7ac6fbd08a).
+
+All copyright goes to [Fabian Faßbender (geNAZt)](https://github.com/geNAZt).
+
+
+
 ProxyTablistVariables
 =====================
 
